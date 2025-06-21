@@ -1,0 +1,8 @@
+.nextflow/
+bin/
+data/
+output/
+tmp/
+work/
+*.log
+*.log.*
