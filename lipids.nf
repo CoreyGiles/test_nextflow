@@ -12,14 +12,19 @@ params.revision = 0
 /*
  * Include modules
  */
+include { checkGit } from './modules/checkGit.nf'
 include { failOnMissing } from './modules/failOnMissing.nf'
 include { getFileProperties } from './modules/getFileProperties.nf'
 include { writeCSV } from './modules/writeCSV.nf'
+checkGit
 
 /*
  * Main workflow
  */
 workflow {
+
+    // Check git status
+    checkGit()
 
     // Get the path to the data files
     data_path = Channel.fromPath("data/${params.cohort}/${params.datatype}/Freeze_${params.freeze}/Revision_${params.revision}/${params.cohort}_${params.datatype}*.csv")
