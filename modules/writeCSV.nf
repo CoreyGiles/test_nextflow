@@ -2,7 +2,7 @@
 
 /*
 ================================================================================
-    Process: writeCSV
+    Process: writeCsv
 --------------------------------------------------------------------------------
     Description: 
 
@@ -17,32 +17,27 @@
 ================================================================================
 */
 
-process writeCSV {
+process writeCsv {
 
     // Define the input channels
     input:
         tuple \
-            val(assay_uid),
-            val(content),
-            val(cohort),           // The cohort name
-            val(datatype),         // The datatype (e.g., Lipidomics)
-            val(freeze),           // The freeze number
-            val(revision)          // The revision number
+            val(id),                // ID to track
+            val(file_name),         // The file name
+            val(content),           // The content to write to the CSV file
+            val(file_path)          // The file path
 
     // Define the output files
     output:
         tuple \
-            val(assay_uid),
-            path("${assay_uid}.csv")
+            val(id),
+            path("${file_name}.csv")
 
     // Set the Publish directory
-    publishDir "output/${cohort}/${datatype}/Freeze_${freeze}/Revision_${revision}/files", mode: 'copy'
+    publishDir "${file_path}", mode: 'copy'
     
     // Script to process the input data
-    script:
-"""
-cat <<-'EOF' > ${assay_uid}.csv
-${content}
-EOF
-"""
+    exec:
+        def csv_file = task.workDir.resolve("${file_name}.csv")
+        csv_file.text = content
 }

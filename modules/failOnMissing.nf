@@ -19,15 +19,17 @@ process failOnMissing {
 
     // Define the input channels
     input:
-        tuple \
-            val(iid),               // The individual ID
-            val(_row),              // The raw data
-            val(_metadata)          // The missing metadata
+        val iid
 
     // Script to process the input data
     script:
         """
         echo "ERROR: no metadata found for IID ${iid}" >&2
         exit 1
+        """
+
+    stub:
+        """
+        echo "stub-run: ignoring assay-uid assurance check"
         """
 }
