@@ -1,8 +1,29 @@
 /*
- * Module: merge
- * Description: Merges two channel streams by key, with optional inner/outer join and fail-on-missing control
- */
+================================================================================
+    Workflow: merge
+--------------------------------------------------------------------------------
+    Description: Merges two channel streams by key, with optional inner/outer join
+        and fail-on-missing process.
 
+    Input:
+        - x: Channel containing the first dataset
+        - y: Channel containing the second dataset
+        - on: Key to merge on (default: 'iid')
+        - all_x: Include all rows from x (default: true)
+        - all_y: Include all rows from y (default: false)
+        - fail_on_missing: Fail if any keys are missing in the merge (default: true)
+
+    Output:
+        - merged_data: Channel containing the merged dataset
+
+    Example output:
+        - Merged channel of structure:
+            [key, x_data, y_data]
+
+================================================================================
+*/
+
+// Process to fail if any keys are missing
 process failOnMissing {
 
     tag "Fail if missing keys are found"
@@ -17,6 +38,7 @@ process failOnMissing {
         """
 }
 
+// Workflow to merge two datasets by a specified key
 workflow merge {
 
     take:
@@ -26,7 +48,7 @@ workflow merge {
         // Unpack the input arguments
         def x = args.x
         def y = args.y
-        def on = args.get('on', 'id')
+        def on = args.get('on', 'iid')
         def all_x = args.get('all_x', true)
         def all_y = args.get('all_y', false)
         def fail_on_missing = args.get('fail_on_missing', true)

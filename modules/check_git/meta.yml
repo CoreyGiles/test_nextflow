@@ -1,0 +1,27 @@
+name: checkGit
+description: |
+  Checks the current Git repository status to ensure:
+    - The current branch is 'main'
+    - The local commit matches the latest remote commit
+    - There are no uncommitted changes
+  This is useful to enforce clean and reproducible runs for pipelines, especially when gating production deployments.
+  Skipped automatically with `-stub-run`.
+keywords:
+  - git
+  - reproducibility
+  - version control
+  - deployment check
+  - validation
+tools:
+  - git:
+      description: Distributed version control system
+      homepage: https://git-scm.com/
+input: []
+output:
+  - name: result
+    type: val
+    description: Returns `true` if all git checks pass (used to gate workflow progress)
+authors:
+  - Corey Giles
+maintainers:
+  - Corey Giles

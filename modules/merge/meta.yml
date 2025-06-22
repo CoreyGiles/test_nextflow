@@ -1,0 +1,30 @@
+name: merge
+description: |
+  Merges two Nextflow channels by a key field with support for inner/outer join and missing entry checks.
+input:
+  - name: x
+    type: channel
+    description: Primary channel to merge on (must include merge key)
+  - name: y
+    type: channel
+    description: Second channel to merge on (must include merge key)
+  - name: on
+    type: string
+    description: Key to merge on (default: "iid")
+  - name: all_x
+    type: boolean
+    description: If false, exclude x records without match in y (default: true)
+  - name: all_y
+    type: boolean
+    description: If false, exclude y records without match in x (default: false)
+  - name: fail_on_missing
+    type: boolean
+    description: If true, fail the pipeline when unmatched values exist (default: true)
+output:
+  - name: merged_data
+    type: channel
+    description: Joined output channel
+authors:
+  - Corey Giles
+maintainers:
+  - Corey Giles
