@@ -5,7 +5,7 @@
     Process: getFileProperties
 --------------------------------------------------------------------------------
     Description: This process retrieves properties of the input data files, such as
-                 the MD5 hash and file size in kilobytes.
+                 the MD5 hash, file size in kilobytes, and creation date.
 
     Input:
         path(data_path)         // The data file path
@@ -35,12 +35,12 @@ process getFileProperties {
 
     // Define the output files
     output:
-
         tuple \
             val(assay_uid),
             path(data_path),
-            eval("md5sum \"${data_path}\" | cut -d' ' -f1"),
-            eval("stat --format='%s' ${data_path}")
+            eval("md5sum ${data_path} | cut -d' ' -f1"),
+            eval("stat --format='%s' ${data_path}"),
+            eval("date -r ${data_path} +%Y-%m-%dT%H:%M:%S")
 
     // Script to process the input data
     script:

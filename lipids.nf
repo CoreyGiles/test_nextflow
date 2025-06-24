@@ -142,7 +142,6 @@ workflow RUN_MAIN {
             loadData(params.cohort, params.datatype, params.freeze, params.revision)
 
         // Merge the data and mapping on 'iid'
-        //joined_data = merge(data, mapping, 'iid', true, false)
         joined_data = merge(x: data, y: mapping, on: 'iid')
 
         // Add the assay UID to the data
@@ -174,8 +173,8 @@ workflow RUN_MAIN {
         output_files = writeCsv(data_output)
 
         // Try to get the file properties
-        getFileProperties(output_files)
-        //| view
+        file_properties = getFileProperties(output_files)
+        | view
 
 }
 
